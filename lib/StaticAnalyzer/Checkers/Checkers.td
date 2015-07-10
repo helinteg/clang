@@ -26,10 +26,16 @@ def CplusplusAlpha : Package<"cplusplus">, InPackage<Alpha>, Hidden;
 def DeadCode : Package<"deadcode">;
 def DeadCodeAlpha : Package<"deadcode">, InPackage<Alpha>, Hidden;
 
+def Different : Package<"different">;
+def DifferentAlpha : Package<"different">, InPackage<Alpha>, Hidden;
+
 def Security : Package <"security">;
 def InsecureAPI : Package<"insecureAPI">, InPackage<Security>;
 def SecurityAlpha : Package<"security">, InPackage<Alpha>, Hidden;
 def Taint : Package<"taint">, InPackage<SecurityAlpha>, Hidden;  
+
+def UndefBehavior : Package<"undefbehavior">;
+def UndefBehaviorAlpha : Package<"undefbehavior">, InPackage<Alpha>, Hidden;
 
 def Unix : Package<"unix">;
 def UnixAlpha : Package<"unix">, InPackage<Alpha>, Hidden;
@@ -218,6 +224,18 @@ def UnreachableCodeChecker : Checker<"UnreachableCode">,
 } // end "alpha.deadcode"
 
 //===----------------------------------------------------------------------===//
+// Different checkers.
+//===----------------------------------------------------------------------===//
+
+let ParentPackage = DifferentAlpha in {
+
+def IntegerOverflowDef : Checker<"IntegerOverflow">,
+  HelpText<"Check for integer overflow resulting in defined behavior only">,
+  DescFile<"IntegerOverflowChecker.cpp">;
+
+} // end "alpha.different"
+
+//===----------------------------------------------------------------------===//
 // Security checkers.
 //===----------------------------------------------------------------------===//
 
@@ -272,6 +290,18 @@ def MallocOverflowSecurityChecker : Checker<"MallocOverflow">,
   DescFile<"MallocOverflowSecurityChecker.cpp">;
 
 } // end "alpha.security"
+
+//===----------------------------------------------------------------------===//
+// Undefined behavior checkers.
+//===----------------------------------------------------------------------===//
+
+let ParentPackage = UndefBehaviorAlpha in {
+
+def IntegerOverflowUndef : Checker<"IntegerOverflow">,
+  HelpText<"Check for integer overflow resulting in undefined behavior">,
+  DescFile<"IntegerOverflowChecker.cpp">;
+
+} // end "alpha.undefbehavior"
 
 //===----------------------------------------------------------------------===//
 // Taint checkers.
